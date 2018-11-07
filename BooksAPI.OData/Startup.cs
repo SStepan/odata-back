@@ -23,11 +23,13 @@ namespace BooksAPI
                 app.UseDeveloperExceptionPage();
             }
 
-
+            app.UseCors("MyPolicy");
             app.UseMvc(routeBuilder =>
             {
                 routeBuilder.MapODataServiceRoute("ODataRoutes", "odata", modelBuilder.GetEdmModel(app.ApplicationServices));
             });
+
+            
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -38,7 +40,13 @@ namespace BooksAPI
                 options.UseSqlite("Data Source=Books.db");
             });
 
+            services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
+            {
+                builder.WithOrigins("http://localhost:3000");
+            }));
+
             services.AddOData();
+            
             services.AddTransient<BooksModelBuilder>();
 
             services.AddMvc().AddJsonOptions(opt =>

@@ -1,10 +1,12 @@
 ﻿using System.Linq;
+using System.Web.Http.Cors;
 using BooksAPI.OData.Models;
 using Microsoft.AspNet.OData;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BooksAPI.OData.Controllers
 {
+    [EnableCors("MyPolicy", headers: "*", methods: "*")]
     [Produces("application/json")]
     public class AuthorController : ODataController
     {
